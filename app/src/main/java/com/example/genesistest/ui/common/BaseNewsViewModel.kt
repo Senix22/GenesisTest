@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 
 open class BaseNewsViewModel(private val savedMovieRepository: SavedMovieRepository) : ViewModel() {
 
-    fun handleNewsSaving(entity: MovieDetailEntity, isSaved: Boolean) {
+    fun handleMovieSaving(entity: MovieDetailEntity, isSaved: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
             if (isSaved) {
                 savedMovieRepository.add(entity)
