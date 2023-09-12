@@ -5,8 +5,8 @@ import com.example.genesistest.data.api.MovieResponse
 import com.example.genesistest.data.api.ResultResponse
 import com.example.genesistest.data.models.MovieDetailEntity
 import com.example.genesistest.data.models.MovieResult
-import com.example.genesistest.data.models.UsualMovieResult
-import com.example.genesistest.data.movie.MovieRepository
+import com.example.genesistest.data.movie.MovieRepoImpl
+import com.example.genesistest.domain.repository.MovieRepository
 import com.example.genesistest.data.movie.MovieResponseMapper
 import com.example.genesistest.network.NetworkResponse
 import junit.framework.TestCase.assertEquals
@@ -28,12 +28,12 @@ class MovieRepositoryTest {
     @Mock
     private lateinit var mapper: MovieResponseMapper
 
-    private lateinit var repository: MovieRepository
+    private lateinit var repository: MovieRepoImpl
 
     @Before
     fun setup() {
         MockitoAnnotations.initMocks(this)
-        repository = MovieRepository(api, mapper)
+        repository = MovieRepoImpl(api, mapper)
     }
 
     @Test

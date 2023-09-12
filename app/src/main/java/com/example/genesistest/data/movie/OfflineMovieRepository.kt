@@ -20,4 +20,9 @@ class OfflineMovieRepository @Inject constructor(
         get() = dao.getAllMovies()
             .map { news -> news.map { mapper(it) } }
 
+    suspend fun cacheData(list: List<MovieDetailEntity>) =
+        database.offlineMoviesDao().insertAndDeleteInTransaction(
+            list.map { mapper(it) }
+        )
+
 }

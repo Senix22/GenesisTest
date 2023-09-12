@@ -1,31 +1,21 @@
 package com.example.genesistest.data
 
-import androidx.paging.PagingData
 import androidx.paging.PagingSource
-import com.example.genesistest.data.api.MovieApi
 import com.example.genesistest.data.models.MovieDetailEntity
 import com.example.genesistest.data.models.MovieResult
-import com.example.genesistest.data.movie.MovieRepository
+import com.example.genesistest.data.movie.OfflineMovieRepository
+import com.example.genesistest.domain.repository.MovieRepository
 import com.example.genesistest.data.page.MovieSource
-import com.example.genesistest.di.DispatcherIo
-import com.example.genesistest.domain.GroupUseCase
-import com.example.genesistest.ui.movie.actual.online.MovieViewModel
-import com.example.genesistest.ui.movie.actual.online.UiModel
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertTrue
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.BDDMockito.given
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
-import java.util.logging.Level.CONFIG
 
 @RunWith(MockitoJUnitRunner::class)
 
@@ -37,7 +27,7 @@ class MovieSourceTest {
     private lateinit var movieRepository: MovieRepository
 
     @Mock
-    private lateinit var useCase: GroupUseCase
+    private lateinit var useCase: OfflineMovieRepository
 
     private lateinit var movieSource: MovieSource
 

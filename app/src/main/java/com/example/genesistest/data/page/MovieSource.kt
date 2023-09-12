@@ -2,16 +2,16 @@ package com.example.genesistest.data.page
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.genesistest.data.movie.MovieRepository
+import com.example.genesistest.domain.repository.MovieRepository
 import com.example.genesistest.data.models.MovieDetailEntity
 
 import com.example.genesistest.data.models.MovieResult
-import com.example.genesistest.domain.GroupUseCase
+import com.example.genesistest.data.movie.OfflineMovieRepository
 import javax.inject.Inject
 
 class MovieSource @Inject constructor(
     private val movieRepository: MovieRepository,
-    private val useCase: GroupUseCase
+    private val useCase: OfflineMovieRepository
 ) : PagingSource<Int, MovieDetailEntity>() {
     override fun getRefreshKey(state: PagingState<Int, MovieDetailEntity>): Int {
         return INITIAL_REFRESH_KEY
