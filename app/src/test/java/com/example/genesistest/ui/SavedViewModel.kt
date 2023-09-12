@@ -21,8 +21,6 @@ import org.mockito.junit.MockitoJUnitRunner
 @RunWith(MockitoJUnitRunner::class)
 class SavedMovieViewModelTest {
 
-//    @get:Rule
-//    val instantExecutorRule = InstantTaskExecutorRule()
 
     @Mock
     private lateinit var dispatcherIo: CoroutineDispatcher

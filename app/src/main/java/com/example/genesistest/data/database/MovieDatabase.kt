@@ -10,7 +10,7 @@ import com.example.genesistest.data.database.MovieDatabase.Companion.DATABASE_VE
 import com.example.genesistest.data.database.caching.OfflineMoviesDao
 
 @Database(
-    entities = [SavedMovieDto::class,  MovieDto::class],
+    entities = [SavedMovieDto::class, MovieDto::class],
     version = DATABASE_VERSION,
     exportSchema = false
 )
@@ -28,7 +28,8 @@ abstract class MovieDatabase : RoomDatabase() {
 
 @Entity(tableName = DATABASE_TABLE)
 data class SavedMovieDto(
-    @PrimaryKey val id: Long,
+    @PrimaryKey
+    @ColumnInfo(name = "id") val id: Long,
     @ColumnInfo(name = "adult") val adult: Boolean?,
     @ColumnInfo(name = "backdrop_path") val backdropPath: String?,
     @ColumnInfo(name = "original_language") val originalLanguage: String?,
@@ -46,7 +47,8 @@ data class SavedMovieDto(
 
 @Entity(tableName = "movies")
 data class MovieDto(
-    @PrimaryKey val id: Long,
+    @PrimaryKey
+    @ColumnInfo(name = "id") val id: Long,
     @ColumnInfo(name = "adult") val adult: Boolean?,
     @ColumnInfo(name = "backdrop_path") val backdropPath: String?,
     @ColumnInfo(name = "original_language") val originalLanguage: String?,

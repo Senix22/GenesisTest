@@ -19,10 +19,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.genesistest.common.State
 import com.example.genesistest.common.isNetworkAvailable
+import com.example.genesistest.data.models.MovieDetailEntity
 import com.example.genesistest.ui.common.ErrorScreen
 import com.example.genesistest.ui.common.LoadingProgress
 import com.example.genesistest.ui.common.MovieItem
-import com.example.genesistest.ui.movie.actual.offline.OfflineScreen
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import kotlinx.coroutines.delay
@@ -30,10 +30,7 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun MovieList() {
-    val context = LocalContext.current
-    if (context.isNetworkAvailable()) {
-        MovieScreen()
-    } else (OfflineScreen())
+    MovieScreen()
 }
 
 @Composable
@@ -42,7 +39,9 @@ fun MovieScreen(
 ) {
 
     var refreshing by remember { mutableStateOf(false) }
+    val context = LocalContext.current
     LaunchedEffect(refreshing) {
+        viewModel.getMovie(context.isNetworkAvailable())
         if (refreshing) {
             delay(3000)
             refreshing = false
@@ -51,11 +50,20 @@ fun MovieScreen(
 
     val movieList = viewModel.movieList.collectAsLazyPagingItems()
 
+    var offline by remember {
+        mutableStateOf<List<MovieDetailEntity>>(emptyList())
+    }
+    LaunchedEffect(Unit) {
+        viewModel.offlineMovieList.collect {
+            offline = it
+        }
+    }
+
     val state by viewModel.state.collectAsState(initial = State.Loading)
 
     SwipeRefresh(
         state = rememberSwipeRefreshState(isRefreshing = refreshing),
-        onRefresh = viewModel::getMovie,
+        onRefresh = { viewModel.getMovie(context.isNetworkAvailable()) },
     ) {
         when (state) {
             is State.Content -> {
@@ -82,7 +90,12 @@ fun MovieScreen(
 
 
             State.Empty -> {
-                OfflineScreen()
+                LazyColumn {
+                    items(offline.size) { index ->
+                        val item = offline[index]
+                        MovieItem(movie = item)
+                    }
+                }
             }
 
             is State.Error -> {
